@@ -1,0 +1,5 @@
+<div class="image-360-container" (mousedown)="startDrag($event)" (mousemove)="onDrag($event)" (mouseup)="endDrag()"
+  (mouseleave)="onMouseLeave()" (touchstart)="startTouch($event)" (touchmove)="onTouch($event)" (touchend)="endTouch()">
+  <img [src]="currentImage" alt="Product Image">
+  <span>{{currentImage}}</span>
+</div>
