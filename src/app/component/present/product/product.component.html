@@ -1,2 +1,9 @@
-<p>product works!</p>
-<slider-control></slider-control>
+<div class="product-list">
+  <mat-card class="product-item" *ngFor="let product of products" [routerLink]="['/', product.name]">
+    <img mat-card-image class="product-thumbnail" [src]="product.albumDetail.thumbnail | baseUrl" alt="{{ product.name }}">
+    <mat-card-content class="product-info">
+      <mat-card-title class="product-title">{{ product.name }}</mat-card-title>
+      <mat-card-subtitle class="product-description">{{ product.description }}</mat-card-subtitle>
+    </mat-card-content>
+  </mat-card>
+</div>

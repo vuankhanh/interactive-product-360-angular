@@ -1,13 +1,20 @@
 <div class="image-360-container">
   @if (currentImage) {
-  <img [src]="currentImage | baseUrl" alt="Product Image">
+  <div class="img-container">
+    <pinch-zoom>
+      <img [src]="currentImage | baseUrl" alt="Product Image">
+    </pinch-zoom>
+  </div>
   }
   <div class="button-container">
-    <button mat-button (click)="rotateLeft()">
+    <button mat-raised-button (mousedown)="startRotate('left')" (mouseup)="stopRotate($event)"
+      (mouseleave)="stopRotate($event)" (touchstart)="startRotate('left')" (touchend)="stopRotate($event)">
       Xoay trái
       <mat-icon svgIcon="arrow-curve-up-left"></mat-icon>
     </button>
-    <button mat-button (click)="rotateRight()" class="icon-end">
+    <button mat-raised-button (mousedown)="startRotate('right')" (mouseup)="stopRotate($event)"
+      (mouseleave)="stopRotate($event)" (touchstart)="startRotate('right')" (touchend)="stopRotate($event)"
+      class="icon-end">
       Xoay phải
       <mat-icon svgIcon="arrow-curve-up-right"></mat-icon>
     </button>

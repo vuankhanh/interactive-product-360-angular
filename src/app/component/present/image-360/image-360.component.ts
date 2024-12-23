@@ -1,13 +1,16 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
 import { SetBaseUrlPipe } from '../../../shared/pipe/set-base-url.pipe';
 import { MaterialModule } from '../../../shared/module/material';
+import { PinchZoomModule } from '@meddv/ngx-pinch-zoom';
 
 @Component({
   selector: 'app-image-360',
   standalone: true,
   imports: [
     MaterialModule,
-    SetBaseUrlPipe
+    SetBaseUrlPipe,
+
+    PinchZoomModule
   ],
   templateUrl: './image-360.component.html',
   styleUrls: ['./image-360.component.scss']
@@ -16,13 +19,10 @@ export class Image360Component implements OnInit {
   @Input() images: string[] = [];
   currentImage?: string;
   currentIndex: number = 0;
-  isDragging: boolean = false;
-  startX: number = 0;
-  zoomScale: string = 'scale(1)';
-  
+  private rotateInterval: any;
 
   private baseUrl = inject(SetBaseUrlPipe);
-
+  constructor(private el: ElementRef) { }
   ngOnInit(): void {
     if (this.images.length > 0) {
       this.preloadImages();
@@ -37,17 +37,36 @@ export class Image360Component implements OnInit {
     });
   }
 
-  rotateLeft(): void {
+  private rotateLeft(): void {
     this.currentIndex = (this.currentIndex + 1 + this.images.length) % this.images.length;
     this.currentImage = this.images[this.currentIndex];
   }
 
-  rotateRight(): void {
+  private rotateRight(): void {
     this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
     this.currentImage = this.images[this.currentIndex];
   }
 
-  toggleZoom() {
-    this.zoomScale = this.zoomScale === 'scale(1)' ? 'scale(1.5)' : 'scale(1)';
+  startRotate(direction: 'left' | 'right'): void {
+    if (direction === 'left') {
+      this.rotateLeft();
+    } else {
+      this.rotateRight();
+    }
+    this.rotateInterval = setInterval(() => {
+      if (direction === 'left') {
+        this.rotateLeft();
+      } else {
+        this.rotateRight();
+      }
+    }, 100); // Adjust the interval as needed
+  }
+
+  stopRotate(event: MouseEvent | TouchEvent): void {
+    if (this.rotateInterval) {
+      event.preventDefault();
+      clearInterval(this.rotateInterval);
+      this.rotateInterval = null;
+    }
   }
 }

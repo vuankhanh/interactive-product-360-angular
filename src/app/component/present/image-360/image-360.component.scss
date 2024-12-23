@@ -1,16 +1,32 @@
 .image-360-container {
-  width: 100%;
+  padding: 15px;
+  width: fit-content;
   height: 100%;
   overflow: hidden;
-  position: relative;
-  cursor: grab;
-  img {
-    width: 500px;
-    height: auto;
-    display: block;
+  box-sizing: border-box;
+  .img-container{
+    display: flex;
+    width: 100%;
+    height: calc(100% - 55px);
+    overflow: hidden;
+    ::ng-deep pinch-zoom{
+      height: 100%;
+      .pinch-zoom-content{
+        height: 100%;
+      }
+    }
+    img {
+      width: auto;
+      height: 100%;
+      display: block;
+    }
   }
   .button-container{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    margin-top: 15px;
     .icon-end{
       display: flex;
       flex-direction: row-reverse;
@@ -25,8 +41,8 @@
 @media screen and (max-width: 768px) {
   .image-360-container {
     img {
-      width: 100%;
-      height: auto;
+      width: 100% !important;
+      height: fit-content !important;
     }
   }
   

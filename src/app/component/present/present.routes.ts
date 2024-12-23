@@ -12,7 +12,7 @@ export const presentRoutes: Routes = [
         path: '',
         component: ProductComponent
       }, {
-        path: ':id',
+        path: ':route',
         component: ProductDetailComponent
       }
     ]
