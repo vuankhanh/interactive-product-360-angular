@@ -5,9 +5,20 @@
   position: relative;
   cursor: grab;
   img {
-    width: auto;
-    height: 100%;
+    width: 500px;
+    height: auto;
     display: block;
+  }
+  .button-container{
+    display: flex;
+    .icon-end{
+      display: flex;
+      flex-direction: row-reverse;
+      mat-icon{
+        margin-left: var(--mat-text-button-icon-spacing, 8px);
+        margin-right: 0;
+      }
+    }
   }
 }
 

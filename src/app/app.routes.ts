@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
-import { ProductComponent } from './component/product/product.component';
-import { ProductDetailComponent } from './component/product-detail/product-detail.component';
 
 export const routes: Routes = [
   {
+    path: 'admin',
+    loadChildren: () => import('./component/admin/admin.routes').then(m => m.adminRoutes),
+  },
+  {
     path: '',
-    component: ProductComponent
-  }, {
-    path: ':id',
-    component: ProductDetailComponent
+    loadChildren: () => import('./component/present/present.routes').then(m => m.presentRoutes)
   }
 ];

@@ -1,0 +1,15 @@
+<div class="image-360-container">
+  @if (currentImage) {
+  <img [src]="currentImage | baseUrl" alt="Product Image">
+  }
+  <div class="button-container">
+    <button mat-button (click)="rotateLeft()">
+      Xoay trái
+      <mat-icon svgIcon="arrow-curve-up-left"></mat-icon>
+    </button>
+    <button mat-button (click)="rotateRight()" class="icon-end">
+      Xoay phải
+      <mat-icon svgIcon="arrow-curve-up-right"></mat-icon>
+    </button>
+  </div>
+</div>

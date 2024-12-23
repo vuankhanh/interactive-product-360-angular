@@ -1,0 +1,35 @@
+<ng-container *ngIf="albumDetail">
+  <div class="container">
+    <div class="button-group-header">
+      <button mat-icon-button color="primary" (click)="goBackAlbumList()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>photo_library</mat-icon>
+          {{albumDetail.name}}
+        </mat-card-title>
+        <mat-card-subtitle>{{albumDetail.createdAt | date: 'dd/MM/yyyy'}}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <gallery objectFit="contain" [items]="galleryItems"></gallery>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="example-button-row">
+          <button mat-raised-button color="primary" (click)="edit()">
+            Sửa lại
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-raised-button color="warn" (click)="remove()">
+            Xóa
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+</ng-container>

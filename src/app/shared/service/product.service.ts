@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 })
 export class ProductService {
   private imagesUrl = `${environment.frontend}/assets/images`;
-  private images: IProduct[] = [
+  private images: any[] = [
     {
       code: 'A101',
       urls: [

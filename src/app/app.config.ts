@@ -3,7 +3,28 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ShowToastInterceptor } from './shared/core/interceptors/show-toast.interceptor';
+import { AuthInterceptor } from './shared/core/interceptors/auth.interceptor';
+import { LoadingInterceptor } from './shared/core/interceptors/loading.interceptor';
+import { provideToastr, ToastrService } from 'ngx-toastr';
+import { SetBaseUrlPipe } from './shared/pipe/set-base-url.pipe';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync()]
+  providers: [
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    provideHttpClient(
+      withInterceptorsFromDi()
+    ),
+    { provide: HTTP_INTERCEPTORS, useClass: ShowToastInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    provideToastr({
+      positionClass: 'toast-bottom-center',
+      preventDuplicates: true,
+    }),
+    ToastrService,
+    SetBaseUrlPipe
+  ]
 };
