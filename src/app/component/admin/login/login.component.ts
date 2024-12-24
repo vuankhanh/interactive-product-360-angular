@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../../shared/module/material';
 import { AuthService } from '../../../shared/service/api/admin/auth.service';
+import { StorageService } from '../../../shared/service/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy{
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageService: StorageService
   ) {
 
   }
@@ -50,8 +52,8 @@ export class LoginComponent implements OnInit, OnDestroy{
         this.authService.login(username, password).subscribe(res => {
           if (res.statusCode === 200) {
             const token = res.metaData;
-            localStorage.setItem('accessToken', token.accessToken);
-            localStorage.setItem('refreshToken', token.refreshToken);
+            this.storageService.setItem('accessToken', token.accessToken);
+            this.storageService.setItem('refreshToken', token.refreshToken);
             this.router.navigate(['/admin']);
           }
         })

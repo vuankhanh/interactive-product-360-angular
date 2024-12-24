@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     MaterialModule,
-    SetBaseUrlPipe,
 
     SkeletonLoadingComponent,
 
@@ -31,7 +30,7 @@ export class Image360Component implements OnInit {
 
   private baseUrl = inject(SetBaseUrlPipe);
 
-  isLoaded: boolean = false;
+  isSkeletonLoading: boolean = true;
   constructor() {
   }
   
@@ -41,11 +40,10 @@ export class Image360Component implements OnInit {
         const imgElements: HTMLImageElement[] = await Promise.all(this.preloadImages(this.images));
         this.imgElements = imgElements;
         this.currentImage = imgElements[this.currentIndex].src;
-        console.log(imgElements);
-        this.isLoaded = true;
+        this.isSkeletonLoading = false;
       }catch(e) {
         console.error('Error loading images', e);
-        this.isLoaded = true;
+        this.isSkeletonLoading = false;
       }
       
     }

@@ -13,7 +13,6 @@ import { Observable, of } from 'rxjs';
     CommonModule,
     RouterOutlet,
     RouterLink,
-    RouterLinkActive,
 
     MaterialModule
   ],

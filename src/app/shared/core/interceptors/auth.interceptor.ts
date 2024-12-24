@@ -9,18 +9,20 @@ import {
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { AuthStateService } from '../../service/auth_state.service';
 import { AuthService } from '../../service/api/admin/auth.service';
+import { StorageService } from '../../service/storage.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   constructor(
     private authStateService: AuthStateService,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageService: StorageService
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = this.storageService.getItem("accessToken");
     if (accessToken) {
       const cloned = request.clone({
         headers: request.headers.set("authorization", "Bearer " + accessToken)
@@ -42,14 +44,14 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
 
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = this.storageService.getItem('refreshToken');
       const isLogin = this.authStateService.isLogin;
       if (isLogin) {
         const refreshTokenRequest = this.authService.refreshToken(refreshToken!)
         return refreshTokenRequest.pipe(
           switchMap((res) => {
             const accessToken = res.metaData.accessToken;
-            localStorage.setItem('accessToken', accessToken);
+            this.storageService.setItem('accessToken', accessToken);
             this.isRefreshing = false;
             const cloned = request.clone({
               headers: request.headers.set("authorization", "Bearer " + accessToken)

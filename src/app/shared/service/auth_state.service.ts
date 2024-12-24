@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,16 +8,17 @@ import { Router } from '@angular/router';
 export class AuthStateService {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) { }
 
   get isLogin(): boolean{
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = this.storageService.getItem('refreshToken');
     return refreshToken ? true : false;
   }
   logout(){
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    this.storageService.removeItem('accessToken');
+    this.storageService.removeItem('refreshToken');
     this.router.navigate(['/admin/login']);
   }
 }

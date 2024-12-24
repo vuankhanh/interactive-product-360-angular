@@ -1,5 +1,7 @@
 
-@if (isLoaded) {
+@if (isSkeletonLoading) {
+  <app-skeleton-loading></app-skeleton-loading>
+}@else {
   <div class="image-360-container">
     @if (currentImage) {
     <div class="img-container">
@@ -22,6 +24,4 @@
       </button>
     </div>
   </div>
-}@else {
-  <app-skeleton-loading></app-skeleton-loading>
 }

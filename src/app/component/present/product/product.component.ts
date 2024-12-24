@@ -33,7 +33,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.presentService.getAll().subscribe(res => {
-        console.log(res);
         this.products = res.data
       }));
   }
