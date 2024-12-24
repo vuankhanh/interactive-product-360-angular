@@ -1,22 +1,27 @@
-<div class="image-360-container">
-  @if (currentImage) {
-  <div class="img-container">
-    <pinch-zoom>
-      <img [src]="currentImage | baseUrl" alt="Product Image">
-    </pinch-zoom>
+
+@if (isLoaded) {
+  <div class="image-360-container">
+    @if (currentImage) {
+    <div class="img-container">
+      <pinch-zoom>
+        <img [src]="currentImage">
+      </pinch-zoom>
+    </div>
+    }
+    <div class="button-container">
+      <button mat-raised-button (mousedown)="startRotate('left')" (mouseup)="stopRotate($event)"
+        (mouseleave)="stopRotate($event)" (touchstart)="startRotate('left')" (touchend)="stopRotate($event)">
+        Xoay trái
+        <mat-icon svgIcon="arrow-curve-up-left"></mat-icon>
+      </button>
+      <button mat-raised-button (mousedown)="startRotate('right')" (mouseup)="stopRotate($event)"
+        (mouseleave)="stopRotate($event)" (touchstart)="startRotate('right')" (touchend)="stopRotate($event)"
+        class="icon-end">
+        Xoay phải
+        <mat-icon svgIcon="arrow-curve-up-right"></mat-icon>
+      </button>
+    </div>
   </div>
-  }
-  <div class="button-container">
-    <button mat-raised-button (mousedown)="startRotate('left')" (mouseup)="stopRotate($event)"
-      (mouseleave)="stopRotate($event)" (touchstart)="startRotate('left')" (touchend)="stopRotate($event)">
-      Xoay trái
-      <mat-icon svgIcon="arrow-curve-up-left"></mat-icon>
-    </button>
-    <button mat-raised-button (mousedown)="startRotate('right')" (mouseup)="stopRotate($event)"
-      (mouseleave)="stopRotate($event)" (touchstart)="startRotate('right')" (touchend)="stopRotate($event)"
-      class="icon-end">
-      Xoay phải
-      <mat-icon svgIcon="arrow-curve-up-right"></mat-icon>
-    </button>
-  </div>
-</div>
+}@else {
+  <app-skeleton-loading></app-skeleton-loading>
+}

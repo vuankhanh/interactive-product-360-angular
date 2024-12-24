@@ -1,0 +1,61 @@
+.skeleton-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  width: fit-content;
+  max-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.skeleton-image-container {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 55px);
+  overflow: hidden;
+
+  .skeleton-image {
+    height: 100%;
+    /* Chiều cao 100% parent */
+    width: auto;
+    /* Tự động tính toán để duy trì tỷ lệ */
+    aspect-ratio: 3 / 4;
+    /* Đảm bảo tỷ lệ 3:4 */
+    background-color: #e0e0e0;
+  }
+}
+
+.skeleton-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  margin-top: 15px;
+
+  .skeleton-button {
+    width: 150px;
+    height: 40px;
+    background-color: #e0e0e0;
+    margin: 10px 0;
+
+  }
+}
+
+.skeleton-image,
+  .skeleton-button {
+    background: linear-gradient(-90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+    background-size: 200% 100%;
+    animation: ripple 1.5s infinite;
+  }
+
+@keyframes ripple {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

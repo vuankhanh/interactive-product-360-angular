@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { RegistryMatIconService } from './shared/service/registry-mat-icon.service';
+import { SpinnerComponent } from './shared/component/spinner/spinner.component';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,8 @@ import { RegistryMatIconService } from './shared/service/registry-mat-icon.servi
   imports: [
     CommonModule,
     RouterOutlet,
+
+    SpinnerComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

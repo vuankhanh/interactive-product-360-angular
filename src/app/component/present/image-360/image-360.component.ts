@@ -1,14 +1,20 @@
-import { Component, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { SetBaseUrlPipe } from '../../../shared/pipe/set-base-url.pipe';
 import { MaterialModule } from '../../../shared/module/material';
 import { PinchZoomModule } from '@meddv/ngx-pinch-zoom';
+import { LoaderService } from '../../../shared/service/loader.service';
+import { SkeletonLoadingComponent } from '../../../shared/component/skeleton-loading/skeleton-loading.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-image-360',
   standalone: true,
   imports: [
+    CommonModule,
     MaterialModule,
     SetBaseUrlPipe,
+
+    SkeletonLoadingComponent,
 
     PinchZoomModule
   ],
@@ -17,34 +23,65 @@ import { PinchZoomModule } from '@meddv/ngx-pinch-zoom';
 })
 export class Image360Component implements OnInit {
   @Input() images: string[] = [];
+  imgElements: HTMLImageElement[] = [];
   currentImage?: string;
   currentIndex: number = 0;
   private rotateInterval: any;
 
+
   private baseUrl = inject(SetBaseUrlPipe);
-  constructor(private el: ElementRef) { }
-  ngOnInit(): void {
+
+  isLoaded: boolean = false;
+  constructor() {
+  }
+  
+  async ngOnInit() {
     if (this.images.length > 0) {
-      this.preloadImages();
-      this.currentImage = this.images[this.currentIndex];
+      try {
+        const imgElements: HTMLImageElement[] = await Promise.all(this.preloadImages(this.images));
+        this.imgElements = imgElements;
+        this.currentImage = imgElements[this.currentIndex].src;
+        console.log(imgElements);
+        this.isLoaded = true;
+      }catch(e) {
+        console.error('Error loading images', e);
+        this.isLoaded = true;
+      }
+      
     }
   }
 
-  preloadImages(): void {
-    this.images.forEach((image) => {
+  private preloadImages(images: string[]): Promise<HTMLImageElement>[] {
+    const a: Promise<HTMLImageElement>[] = images.map(image => {
+      return this.preloadImage(image);
+    });
+
+    return a;
+  }
+
+  private preloadImage(image: string): Promise<HTMLImageElement> {
+    return new Promise<HTMLImageElement>((resolve, reject) => {
       const img = new Image();
+      
+      img.style.width = 'auto';
+      img.style.height = '100%';
+      img.style.display = 'block';
       img.src = this.baseUrl.transform(image);
+      img.onload = () => {
+        resolve(img);
+      };
+      img.onerror = () => { reject() }; // Resolve even if there's an error to avoid blocking
     });
   }
 
   private rotateLeft(): void {
-    this.currentIndex = (this.currentIndex + 1 + this.images.length) % this.images.length;
-    this.currentImage = this.images[this.currentIndex];
+    this.currentIndex = (this.currentIndex + 1 + this.imgElements.length) % this.images.length;
+    this.currentImage = this.imgElements[this.currentIndex].src;
   }
 
   private rotateRight(): void {
-    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-    this.currentImage = this.images[this.currentIndex];
+    this.currentIndex = (this.currentIndex - 1 + this.imgElements.length) % this.images.length;
+    this.currentImage = this.imgElements[this.currentIndex].src;
   }
 
   startRotate(direction: 'left' | 'right'): void {

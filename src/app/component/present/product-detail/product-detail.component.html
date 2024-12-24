@@ -1,5 +1,11 @@
 <div class="container">
-  @if (images.length) {
+  <mat-toolbar>
+    <button mat-icon-button (click)="back()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>{{product?.name}}</span>
+  </mat-toolbar>
+  @if (images.length > 0) {
     <app-image-360 [images]="images"></app-image-360>
   }
 </div>

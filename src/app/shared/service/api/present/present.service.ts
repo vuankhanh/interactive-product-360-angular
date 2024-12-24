@@ -30,11 +30,8 @@ export class PresentService {
   }
 
   getDetail(route: string) {
-    console.log(route);
-    
     let params = new HttpParams();
     params = params.append('route', route);
-    console.log(params);
     
     return this.httpClient.get<IProductDetailRespone>(this.url + '/detail', { params }).pipe(
       map(res => res.metaData)
