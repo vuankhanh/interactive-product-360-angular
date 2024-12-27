@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { PresentService } from '../../../shared/service/api/present/present.service';
 import { TProductModel } from '../../../shared/interface/product.interface';
 import { SetBaseUrlPipe } from '../../../shared/pipe/set-base-url.pipe';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SkeletonLoadingComponent } from '../../../shared/component/skeleton-loading/skeleton-loading.component';
 
 @Component({
@@ -27,14 +27,16 @@ export class ProductComponent implements OnInit, OnDestroy {
   
   subscription: Subscription = new Subscription();
   constructor(
+    private activatedRoute: ActivatedRoute,
     private presentService: PresentService
   ) { }
 
   ngOnInit(): void {
     this.subscription.add(
-      this.presentService.getAll().subscribe(res => {
-        this.products = res.data
-      }));
+      this.activatedRoute.data.subscribe(({product}) => {
+        this.products = product.data;
+      })
+    )
   }
 
   ngOnDestroy(): void {

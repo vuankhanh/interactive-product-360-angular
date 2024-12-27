@@ -9,7 +9,7 @@ import { AuthInterceptor } from './shared/core/interceptors/auth.interceptor';
 import { LoadingInterceptor } from './shared/core/interceptors/loading.interceptor';
 import { provideToastr, ToastrService } from 'ngx-toastr';
 import { SetBaseUrlPipe } from './shared/pipe/set-base-url.pipe';
-import { provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
+import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,8 +27,5 @@ export const appConfig: ApplicationConfig = {
     }),
     ToastrService,
     SetBaseUrlPipe,
-    provideClientHydration(withHttpTransferCacheOptions({
-      includePostRequests: true
-    }))
   ]
 };

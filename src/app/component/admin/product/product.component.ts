@@ -10,6 +10,7 @@ import { SetBaseUrlPipe } from '../../../shared/pipe/set-base-url.pipe';
 import { Router } from '@angular/router';
 import { BreakpointDetectionService } from '../../../shared/service/breakpoint-detection.service';
 import { CurrencyCustomPipe } from '../../../shared/pipe/currency-custom.pipe';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-product',
@@ -52,6 +53,11 @@ export class ProductComponent implements OnInit, OnDestroy {
       })
     );
   }
+
+  handlePageEvent(event: PageEvent) {
+    this.initProduct('', event.pageIndex, event.pageSize);
+  }
+
 
   onCreateEvent() {
     this.router.navigate(['/admin/product-edit']);

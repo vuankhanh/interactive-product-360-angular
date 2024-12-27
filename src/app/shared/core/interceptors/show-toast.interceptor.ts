@@ -16,14 +16,16 @@ export class ShowToastInterceptor implements HttpInterceptor {
 
   constructor(
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       tap({
         // Operation failed; error is an HttpErrorResponse
         error: (error: HttpErrorResponse) => {
-          this.toastrService.error(error.error.message, error.error.error);
+          console.log('error'+ error);
+          
+          // this.toastrService.error(error.error.message, error.error.error);
         }
       })
     );

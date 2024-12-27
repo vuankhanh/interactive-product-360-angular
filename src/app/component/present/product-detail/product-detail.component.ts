@@ -26,7 +26,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
-    private routerActivated: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private platformService: PlatformService,
     private metaService: Meta,
     private setBaseUrlPipe: SetBaseUrlPipe
@@ -34,7 +34,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.routerActivated.data.subscribe(({productDetail}) => {
+      this.activatedRoute.data.subscribe(({productDetail}) => {
         const isBrowser = this.platformService.isBrowserPlatform;
         
         this.product = productDetail;
