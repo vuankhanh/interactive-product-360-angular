@@ -19,15 +19,19 @@ export class ShowToastInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request).pipe(
-      tap({
-        // Operation failed; error is an HttpErrorResponse
+    return new Observable((oberver)=>{
+      next.handle(request).subscribe({
+        next: (event: HttpEvent<unknown>) => {
+          if (event instanceof HttpResponse) {
+            oberver.next(event);
+            oberver.complete();
+          }
+        },
         error: (error: HttpErrorResponse) => {
-          console.log('error'+ error);
-          
-          // this.toastrService.error(error.error.message, error.error.error);
+          this.toastrService.error(error.error.message, error.error.error);
+          oberver.error(error);
         }
       })
-    );
+    })
   }
 }

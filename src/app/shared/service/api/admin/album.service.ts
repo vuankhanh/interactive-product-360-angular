@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
-import { IAlbumDetailRespone, IAlbumResponse } from '../../../interface/album.interface';
+import { IAlbumDetailRespone, IAlbumGetGifRespone, IAlbumResponse } from '../../../interface/album.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -53,9 +53,9 @@ export class AlbumService {
     );
   }
 
-  addNewFiles(id: string, files: Array<Blob>) {
+  addNewFiles(route: string, files: Array<Blob>) {
     let params = new HttpParams();
-    params = params.append('id', id);
+    params = params.append('route', route);
 
     const formData = new FormData();
     for (let file of files) {
@@ -66,22 +66,26 @@ export class AlbumService {
     );
   }
 
-  removeFiles(id: string, filesWillRemove: Array<string>) {
+  removeFiles(route: string, filesWillRemove: Array<string>) {
     let params = new HttpParams();
-    params = params.append('id', id);
+    params = params.append('route', route);
 
     return this.httpClient.patch<IAlbumDetailRespone>(this.url + '/remove-files', { filesWillRemove }, { params }).pipe(
       map(res => res.metaData)
     );
   }
 
-  itemIndexChange(id: string, newItemIndexChange: Array<string>) {
+  itemIndexChange(route: string, newItemIndexChange: Array<string>) {
     let params = new HttpParams();
-    params = params.append('id', id);
+    params = params.append('route', route);
 
     return this.httpClient.patch<IAlbumDetailRespone>(this.url + '/item-index-change', { newItemIndexChange }, { params }).pipe(
       map(res => res.metaData)
     );
+  }
+
+  getGif(id: string) {
+    return this.httpClient.post<IAlbumGetGifRespone>(this.url + '/get-gif/' + id, {});
   }
 
   delete(id: string) {

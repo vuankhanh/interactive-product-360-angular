@@ -69,6 +69,8 @@ export class AlbumEditComponent implements OnInit, OnDestroy {
         next: res => {
           if (res) {
             this.albumDetail = res;
+            console.log(this.albumDetail);
+            
             this.initImages(this.albumDetail.media);
             this.nameControl.setValue(this.albumDetail.name);
           }
@@ -101,7 +103,7 @@ export class AlbumEditComponent implements OnInit, OnDestroy {
   handleFilesUploaded(files: Array<File>): void {
     let api$: Observable<TAlbumModel>;
     if (this.albumDetail) {
-      api$ = this.addNewFiles$(this.albumDetail._id!, files);
+      api$ = this.addNewFiles$(this.albumDetail.route, files);
     } else {
       this.nameControl.markAsTouched();
       if (this.nameControl.invalid) {
@@ -128,8 +130,8 @@ export class AlbumEditComponent implements OnInit, OnDestroy {
     return this.albumService.create(params.name, params.files);
   }
 
-  private addNewFiles$(id: string, files: Array<File>) {
-    return this.albumService.addNewFiles(id, files);
+  private addNewFiles$(route: string, files: Array<File>) {
+    return this.albumService.addNewFiles(route, files);
   }
 
   handleItemTemporaryDeletion(index: number): void {
@@ -177,11 +179,11 @@ export class AlbumEditComponent implements OnInit, OnDestroy {
   }
 
   private updateRemoveFilesRequest(filesWillRemove: Array<string>) {
-    return this.albumService.removeFiles(this.albumDetail!._id, filesWillRemove);
+    return this.albumService.removeFiles(this.albumDetail!.route, filesWillRemove);
   }
 
   private updateItemIndexChangeRequest(galleryItemIndexChanged: Array<string>) {
-    return this.albumService.itemIndexChange(this.albumDetail!._id, galleryItemIndexChanged)
+    return this.albumService.itemIndexChange(this.albumDetail!.route, galleryItemIndexChanged)
   }
 
   goBackAlbumDetail() {

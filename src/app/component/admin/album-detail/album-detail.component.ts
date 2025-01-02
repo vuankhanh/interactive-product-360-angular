@@ -14,7 +14,7 @@ import { SetBaseUrlPipe } from '../../../shared/pipe/set-base-url.pipe';
 import { TAlbumModel, TMediaModel } from '../../../shared/interface/album.interface';
 import { IGalleryItem } from '../../../shared/interface/gallery.interface';
 import { TConfirmDialogData } from '../../../shared/interface/confirm_dialog.interface';
-
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-album-detail',
   standalone: true,
@@ -48,7 +48,6 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let albumDetail$ = this.activatedRoute.params.pipe(
-      tap(res=>console.log(res)),
       map(params => {
         const detailParams: DetailParams = {route: params['route'] as string};
         return detailParams
@@ -63,8 +62,6 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
           this.initImages(this.albumDetail.media)
         },
         error: error => {
-          console.log(error);
-          
           this.goBackAlbumList();
         }
       })
@@ -120,6 +117,19 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
         console.error(error);
       }
     });
+  }
+
+  downloadGif(){
+    this.subscription.add(
+      this.albumService.getGif(this.albumDetail!._id).subscribe(res=>{
+        console.log(res);
+        
+        const buffer = new Uint8Array(res.metaData.data);
+        const data = new Blob([buffer]);
+        saveAs(data, `${this.albumDetail?.name}.gif`);
+        
+      })
+    )
   }
 
   goBackAlbumList() {

@@ -39,3 +39,10 @@ export interface IAlbumResponse extends ISuccess {
 export interface IAlbumDetailRespone extends ISuccess {
   metaData: TAlbumModel
 }
+
+export interface IAlbumGetGifRespone extends ISuccess {
+  metaData: {
+    type: string,
+    data: number[]
+  }
+}
