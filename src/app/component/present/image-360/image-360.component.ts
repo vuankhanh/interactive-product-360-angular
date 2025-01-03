@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, ElementRef, HostListener, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { SetBaseUrlPipe } from '../../../shared/pipe/set-base-url.pipe';
 import { MaterialModule } from '../../../shared/module/material';
 import { PinchZoomModule } from '@meddv/ngx-pinch-zoom';
-import { LoaderService } from '../../../shared/service/loader.service';
 import { SkeletonLoadingComponent } from '../../../shared/component/skeleton-loading/skeleton-loading.component';
 import { CommonModule } from '@angular/common';
 
@@ -22,6 +21,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Image360Component implements OnInit {
   @Input() images: string[] = [];
+  @Input() isSoldOut: boolean = false;
   imgElements: HTMLImageElement[] = [];
   currentImage?: string;
   currentIndex: number = 0;

@@ -5,9 +5,10 @@
   <div class="image-360-container">
     @if (currentImage) {
     <div class="img-container">
-      <pinch-zoom>
+      <pinch-zoom [disableZoomControl]="'disable'" [limit-zoom]="5" [limitPan]="true">
         <img [src]="currentImage">
       </pinch-zoom>
+      <div *ngIf="isSoldOut" class="sold-out-text">Đã bán</div>
     </div>
     }
     <div class="button-container">

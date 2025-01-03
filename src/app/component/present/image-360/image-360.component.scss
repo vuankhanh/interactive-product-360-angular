@@ -9,16 +9,30 @@
     width: 100%;
     height: calc(100% - 55px);
     overflow: hidden;
+    position: relative;
     ::ng-deep pinch-zoom{
       height: 100%;
       .pinch-zoom-content{
         height: 100%;
       }
     }
-    .img-specific {
-      width: auto;
-      height: 100%;
-      display: block;
+
+    .sold-out-text {
+      position: absolute;
+      top: 25px;
+      right: -50px;
+      background-color: rgb(189 189 189 / 70%);
+      color: rgb(61 61 61);
+      padding: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      transform: rotate(45deg);
+      width: 200px;
+      height: 40px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .button-container{

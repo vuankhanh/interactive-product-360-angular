@@ -6,6 +6,6 @@
     <span>{{product?.name}}</span>
   </mat-toolbar>
   @if (images.length > 0) {
-    <app-image-360 [images]="images"></app-image-360>
+    <app-image-360 [images]="images" [isSoldOut]="!product?.availability"></app-image-360>
   }
 </div>

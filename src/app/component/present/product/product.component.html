@@ -1,6 +1,15 @@
+<div class="header-container">
+  <h2>Quất cảnh Lập hồi</h2>
+  <p>Liên Nghĩa, Văn Giang, tỉnh Hưng Yên</p>
+  <p><i>Bạn chọn cây tại vườn, chúng tôi mang tận nơi cho bạn.</i></p>
+</div>
 <div class="product-list">
   <mat-card class="product-item" *ngFor="let product of products" [routerLink]="['/', product.name]">
-    <img mat-card-image class="product-thumbnail" [src]="product.albumDetail.thumbnail | baseUrl" alt="{{ product.name }}">
+    <div class="product-image-container">
+      <img mat-card-image class="product-thumbnail" [src]="product.albumDetail.thumbnail | baseUrl"
+        alt="{{ product.name }}" [ngClass]="{'sold-out': !product.availability}">
+      <div *ngIf="!product.availability" class="sold-out-text">Đã bán</div>
+    </div>
     <mat-card-content class="product-info">
       <mat-card-title class="product-title">{{ product.name }}</mat-card-title>
       <mat-card-subtitle class="product-description">{{ product.description }}</mat-card-subtitle>
