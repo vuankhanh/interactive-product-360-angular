@@ -55,7 +55,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   handlePageEvent(event: PageEvent) {
-    this.initProduct('', event.pageIndex, event.pageSize);
+    const page: number = event.pageIndex + 1;
+    const size: number = event.pageSize;
+    this.initProduct('', page, size);
   }
 
 
